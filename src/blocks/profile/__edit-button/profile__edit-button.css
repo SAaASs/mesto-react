@@ -3,7 +3,7 @@
     height: 24px;
     border: 1px solid white;
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("../../../images/Vectorpencil.svg");
+    background-image: url("/public/images/Vectorpencil.svg");
     background-repeat: no-repeat;
     background-position: center;
     margin-bottom: 7px;

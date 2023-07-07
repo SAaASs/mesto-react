@@ -3,7 +3,7 @@
     height: 50px;
     border: 2px solid white;
     background-color: rgba(0, 0, 0, 0);
-    background-image: url("../../../images/plus.svg");
+    background-image: url("/public/images/plus.svg");
     background-repeat: no-repeat;
     background-position: center;
     margin-bottom: 7px;

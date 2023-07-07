@@ -1,7 +1,7 @@
 .element__delete {
     width: 18px;
     height: 19px;
-    background-image: url("../../../images/Group.svg");
+    background-image: url("/public/images/Group.svg");
     position: absolute;
     top: 20px;
     right: 20px;
