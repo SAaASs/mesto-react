@@ -20,22 +20,22 @@ function App() {
     const [cards, setCards] = React.useState([{name:"name", link:"link", likes:[], _id: 0}])
     const [selectedCard, setSelectedCard] = React.useState()
     React.useEffect(() => {
-        api.getUser().then((data) => {setUserName(data.name)})
+        api.getUser().then((data) => {setUserName(data.name)}).catch(err => {console.log(err)})
       },[])
       React.useEffect(() => {
-        api.getUser().then((data) => {setUserDescription(data.about)})
+        api.getUser().then((data) => {setUserDescription(data.about)}).catch(err => {console.log(err)})
       },[])
       React.useEffect(() => {
-        api.getUser().then((data) => {setUserAvatar(data.avatar)})
+        api.getUser().then((data) => {setUserAvatar(data.avatar)}).catch(err => {console.log(err)})
       },[])
 
       React.useEffect(() => {
-        api.getCards().then((data) => {console.log(data);setCards(data);})
+        api.getCards().then((data) => {console.log(data);setCards(data);}).catch(err => {console.log(err)})
       }, []);
       console.log("cardsel",selectedCard)
   return (
     <>
-    {editPopupOpened && <PopupWithForm onClose={()=>{setEditPopupOpened(!editPopupOpened)}} popupTitle = {"Редактировать профиль"} formName={"Edit"}>
+    {editPopupOpened && <PopupWithForm buttonText={"Сохранить"} onClose={()=>{setEditPopupOpened(!editPopupOpened)}} popupTitle = {"Редактировать профиль"} formName={"Edit"}>
                 <fieldset id="editFields" className="popup__fields">
                     <div  className="popup__input-container">
                         <input name="name_input" className="popup__input" id="popupName" noValidate minLength="2" maxLength="40" required/>
@@ -45,11 +45,11 @@ function App() {
                         <input name="work_input" className="popup__input" id="popupWork" noValidate minLength="2" maxLength="400" required/>
                         <span className="popupWork-error popup__error"></span>
                     </div>
-                    <button type="submit" className="popup__save" id="popupEditSave">Сохранить</button>
+                    
                 </fieldset>
         
         </PopupWithForm>}
-    {addPopupOpened && <PopupWithForm onClose={()=>{setaddPopupOpened(!addPopupOpened)}} popupTitle = {"Новое место"} formName={"Add"}>
+    {addPopupOpened && <PopupWithForm buttonText={"Создать"} onClose={()=>{setaddPopupOpened(!addPopupOpened)}} popupTitle = {"Новое место"} formName={"Add"}>
                 <fieldset id="editFields" className="popup__fields">
                     <div  className="popup__input-container">
                         <input name="name_input" className="popup__input" id="popupName" noValidate minLength="2" maxLength="40" required/>
@@ -59,11 +59,11 @@ function App() {
                         <input name="work_input" className="popup__input" id="popupWork" noValidate minLength="2" maxLength="400" required/>
                         <span className="popupWork-error popup__error"></span>
                     </div>
-                    <button type="submit" className="popup__save" id="popupEditSave">Создать</button>
+                    
                 </fieldset>
         
         </PopupWithForm>}
-    {avatarPopupOpened && <PopupWithForm onClose={()=>{setavatarPopupOpened(!avatarPopupOpened)}} popupTitle = {"Обновить аватар"} formName={"Avatar"}>
+    {avatarPopupOpened && <PopupWithForm buttonText={"Сохранить"} onClose={()=>{setavatarPopupOpened(!avatarPopupOpened)}} popupTitle = {"Обновить аватар"} formName={"Avatar"}>
                 <fieldset id="editFields" className="popup__fields">
                     <div  className="popup__input-container">
                         <input name="name_input" className="popup__input" id="popupName" noValidate minLength="2" maxLength="40" required/>
@@ -73,7 +73,7 @@ function App() {
                         <input name="work_input" className="popup__input" id="popupWork" noValidate minLength="2" maxLength="400" required/>
                         <span className="popupWork-error popup__error"></span>
                     </div>
-                    <button type="submit" className="popup__save" id="popupEditSave">Сохранить</button>
+                    
                 </fieldset>
         
         </PopupWithForm>}
@@ -82,12 +82,12 @@ function App() {
                     <button type="submit" className="popup__save" id="popupEditSave">Да</button>
                 </fieldset>
         </PopupWithForm>}
-        {fullImagePopupOpened && <ImagePopup imgUrl={selectedCard.link} onClose={()=>{setfullImagePopupOpened(!fullImagePopupOpened)}}></ImagePopup>}
+        {fullImagePopupOpened && <ImagePopup card={selectedCard} onClose={()=>{setfullImagePopupOpened(!fullImagePopupOpened)}}></ImagePopup>}
 
 
     <Header/>
     <Main userAvatar={userAvatar} userDescription={userDescription} userName={userName} onAddPopupOpen={()=>{setaddPopupOpened(!addPopupOpened)}} onEditPopupOpen={()=>{setEditPopupOpened(!editPopupOpened)}} onAvatarPopupOpen={()=>{setavatarPopupOpened(!avatarPopupOpened)}} >
-        {cards.map((item) => {return(<Card card={item} clickHandler={()=>{setSelectedCard(item);setfullImagePopupOpened(!fullImagePopupOpened)}} />)})}
+        {cards.map((item) => {return(<Card card={item} key={item._id} clickHandler={()=>{setSelectedCard(item);setfullImagePopupOpened(!fullImagePopupOpened)}} />)})}
     </Main>
     <Footer/>
     
