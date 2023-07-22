@@ -6,7 +6,9 @@ export class API {
     }
     _checkResponse(res) {
         if (res.ok) {
-            return res.json();
+            let resu = res.json()
+            console.log(resu)
+            return resu;
         }
         return Promise.reject(`Ошибка ${res.status}`);
     }
@@ -47,17 +49,19 @@ export class API {
             headers: this._headers,
             })
     }
-    stealLike (cardId) {
-        return fetch(this._baseUrl+`cards/${cardId}/likes`, {
-            method: 'DELETE',
-            headers: this._headers,
-            }).then(this._checkResponse)
-    }
-    giveLike (cardId) {
-        return fetch(this._baseUrl+`cards/${cardId}/likes`, {
-            method: 'PUT',
-            headers: this._headers,
-            }).then(this._checkResponse)
+    updateLike(cardId, isLiked){
+        if(!isLiked){
+            return fetch(this._baseUrl+`cards/${cardId}/likes`, {
+                method: 'PUT',
+                headers: this._headers,
+                }).then(this._checkResponse)
+        }
+        else {
+            return fetch(this._baseUrl+`cards/${cardId}/likes`, {
+                method: 'DELETE',
+                headers: this._headers,
+                }).then(this._checkResponse)
+        }
     }
     updateAvatar(newPlaceAvatarLink) {
         return fetch(this._baseUrl+`users/me/avatar`, {
