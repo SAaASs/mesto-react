@@ -37,8 +37,6 @@ function App() {
 
     } 
     function handleCardDelete(card) {
-
-        console.log(card)
         api.deleteCard(card._id)
     } 
     function updateAvatar(link) {
@@ -54,9 +52,9 @@ function App() {
   return (
     <>
     <CurrentUserContext.Provider value={currentUser}>
-    {editPopupOpened && <EditPopup submitHandler={(personName, personWork)=>{updateProfile(personName, personWork).then((value)=>{setCurrentUser(value); setEditPopupOpened(!editPopupOpened)})}} onClose={()=>{setEditPopupOpened(!editPopupOpened)}}></EditPopup>}
-    {addPopupOpened && <AddPopup onClose={()=>{setaddPopupOpened(!addPopupOpened)}} submitHandler={(newPlaceName, newPlaceImgLink)=>{updateCards(newPlaceName, newPlaceImgLink).then(setaddPopupOpened(!addPopupOpened))}}></AddPopup>}
-    {avatarPopupOpened && <AvatarPopup submitHandler={(link)=>{updateAvatar(link).then((value)=>{setCurrentUser(value); setavatarPopupOpened(!avatarPopupOpened)})}} onClose={()=>{setavatarPopupOpened(!avatarPopupOpened)}}></AvatarPopup>}
+    <EditPopup isOpen={editPopupOpened} submitHandler={(personName, personWork)=>{updateProfile(personName, personWork).then((value)=>{setCurrentUser(value); setEditPopupOpened(!editPopupOpened)})}} onClose={()=>{setEditPopupOpened(!editPopupOpened)}}></EditPopup>
+    <AddPopup isOpen={addPopupOpened} onClose={()=>{setaddPopupOpened(!addPopupOpened)}} submitHandler={(newPlaceName, newPlaceImgLink)=>{updateCards(newPlaceName, newPlaceImgLink).then(setaddPopupOpened(!addPopupOpened))}}></AddPopup>
+    <AvatarPopup isOpen={avatarPopupOpened} submitHandler={(link)=>{updateAvatar(link).then((value)=>{setCurrentUser(value); setavatarPopupOpened(!avatarPopupOpened)})}} onClose={()=>{setavatarPopupOpened(!avatarPopupOpened)}}></AvatarPopup>
     {deletePopupOpened && <PopupWithForm submitHandler={(e)=>{e.preventDefault();handleCardDelete(selectedCard); setDeletePopupOpened(!deletePopupOpened); setCards(cards.filter(card => card != selectedCard))}}  onClose={()=>{setDeletePopupOpened(!deletePopupOpened)}} buttonText={"Да"} popupTitle = {"Вы уверены?"} formName={"Delete"}>
                 <fieldset id="editFields" className="popup__fields">
                 </fieldset>

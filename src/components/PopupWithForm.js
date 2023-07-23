@@ -1,6 +1,6 @@
-export function PopupWithForm({popupTitle, formName, children, onClose, submitHandler, buttonText}) {
+export function PopupWithForm({popupTitle, formName, children, onClose, submitHandler, buttonText, isOpen}) {
     return (
-        <div id={`popup${formName}`} className="popup popup_opened">
+        <div id={`popup${formName}`} className={`popup ${isOpen && 'popup_opened'}`}>
             <div className="popup__container">
                 <button onClick={onClose} id={`popup${formName}CloseButton`} type="button" className="popup__close-button"></button>
                 <h2 className="popup__title">{popupTitle}</h2>

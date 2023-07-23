@@ -1,6 +1,6 @@
 import { PopupWithForm } from "./PopupWithForm"
 import React from "react"
-export function AddPopup({onClose, submitHandler}) {
+export function AddPopup({onClose, submitHandler, isOpen}) {
     const [newPlaceNameValue, setNewPlaceNameValue] = React.useState("")
     const [newPlaceImgLinkValue, setNewPlaceImgLinkValue] = React.useState("")
     function handleNameChange(e) {
@@ -10,7 +10,7 @@ export function AddPopup({onClose, submitHandler}) {
         setNewPlaceImgLinkValue(e.target.value);
     }
     return (
-        <PopupWithForm onClose={onClose} submitHandler={(e)=>{e.preventDefault(); submitHandler(newPlaceNameValue, newPlaceImgLinkValue)}} buttonText={"Сохранить"} popupTitle = {"Новое место"} formName={"Add"}>
+        <PopupWithForm isOpen={isOpen} onClose={onClose} submitHandler={(e)=>{e.preventDefault(); submitHandler(newPlaceNameValue, newPlaceImgLinkValue)}} buttonText={"Сохранить"} popupTitle = {"Новое место"} formName={"Add"}>
                 <fieldset id="addFields" className="popup__fields">
                     <div className="popup__input-container">
                         <input onChange={handleNameChange} name="newPlaceName" placeholder="Название" className="popup__input popup__input_add" id="newPlaceName" noValidate minLength="2" maxLength="40" required/>
