@@ -2,17 +2,18 @@ import { PopupWithForm } from "./PopupWithForm";
 import React from "react";
 export function AvatarPopup({ onClose, submitHandler, isOpen }) {
   const avatarRef = React.useRef();
+  React.useEffect(() => {
+    avatarRef.current.value = "";
+  }, [isOpen]);
   return (
     <PopupWithForm
       isOpen={isOpen}
       onClose={() => {
         onClose();
-        avatarRef.current.value = "";
       }}
       submitHandler={(e) => {
         e.preventDefault();
         submitHandler(avatarRef.current.value);
-        avatarRef.current.value = "";
       }}
       buttonText={"Сохранить"}
       popupTitle={"Обновить аватар"}

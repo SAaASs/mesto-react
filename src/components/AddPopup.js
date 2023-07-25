@@ -3,7 +3,7 @@ import React from "react";
 export function AddPopup({ onClose, submitHandler, isOpen }) {
   const [newPlaceNameValue, setNewPlaceNameValue] = React.useState("");
   const [newPlaceImgLinkValue, setNewPlaceImgLinkValue] = React.useState("");
-  const clear = React.useEffect(() => {
+  React.useEffect(() => {
     setNewPlaceImgLinkValue("");
     setNewPlaceNameValue("");
   }, [isOpen]);

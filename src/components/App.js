@@ -25,7 +25,7 @@ function App() {
   const [cards, setCards] = React.useState([
     { name: "name", link: "link", likes: [], _id: 0 },
   ]);
-  const [selectedCard, setSelectedCard] = React.useState("");
+  const [selectedCard, setSelectedCard] = React.useState(null);
   React.useEffect(() => {
     api
       .getUser()
@@ -68,7 +68,7 @@ function App() {
       });
   }
   function handleCardDelete(card) {
-    api.deleteCard(card._id).catch((err) => {
+    return api.deleteCard(card._id).catch((err) => {
       console.log(err);
     });
   }
@@ -99,10 +99,11 @@ function App() {
         <EditPopup
           isOpen={editPopupOpened}
           submitHandler={(personName, personWork) => {
-            updateProfile(personName, personWork).then((value) => {
-              setCurrentUser(value);
-              setEditPopupOpened(!editPopupOpened);
-            });
+            updateProfile(personName, personWork)
+              .then((value) => {
+                setCurrentUser(value);
+              })
+              .then(setEditPopupOpened(!editPopupOpened));
           }}
           onClose={() => {
             setEditPopupOpened(!editPopupOpened);
@@ -122,10 +123,11 @@ function App() {
         <AvatarPopup
           isOpen={avatarPopupOpened}
           submitHandler={(link) => {
-            updateAvatar(link).then((value) => {
-              setCurrentUser(value);
-              setavatarPopupOpened(!avatarPopupOpened);
-            });
+            updateAvatar(link)
+              .then((value) => {
+                setCurrentUser(value);
+              })
+              .then(setavatarPopupOpened(!avatarPopupOpened));
           }}
           onClose={() => {
             setavatarPopupOpened(!avatarPopupOpened);
@@ -135,9 +137,9 @@ function App() {
           isOpen={doomedCard != ""}
           submitHandler={(e) => {
             e.preventDefault();
-            handleCardDelete(doomedCard);
-            setDoomedCard("");
-            setCards(cards.filter((card) => card != doomedCard));
+            handleCardDelete(doomedCard)
+              .then(setCards(cards.filter((card) => card != doomedCard)))
+              .then(setDoomedCard(""));
           }}
           onClose={() => {
             setDoomedCard("");
@@ -149,7 +151,7 @@ function App() {
         <ImagePopup
           card={selectedCard}
           onClose={() => {
-            setSelectedCard("");
+            setSelectedCard(null);
           }}
         ></ImagePopup>
 

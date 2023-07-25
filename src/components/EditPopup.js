@@ -1,11 +1,13 @@
 import { PopupWithForm } from "./PopupWithForm";
 import React from "react";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 export function EditPopup({ onClose, submitHandler, isOpen }) {
   const [workValue, setWorkValue] = React.useState("");
   const [nameValue, setNameValue] = React.useState("");
-  const clear = React.useEffect(() => {
-    setNameValue("");
-    setWorkValue("");
+  const user = React.useContext(CurrentUserContext);
+  React.useEffect(() => {
+    setNameValue(user?.name);
+    setWorkValue(user?.about);
   }, [isOpen]);
   function handleNameChange(e) {
     setNameValue(e.target.value);
