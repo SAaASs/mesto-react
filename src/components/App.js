@@ -56,42 +56,24 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card?.likes?.some((i) => i._id === currentUser?._id);
-    api
-      .updateLike(card._id, isLiked)
-      .then((newCard) => {
-        setCards((state) =>
-          state.map((c) => (c._id === card._id ? newCard : c))
-        );
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    api.updateLike(card._id, isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
   }
   function handleCardDelete(card) {
-    return api.deleteCard(card._id).catch((err) => {
-      console.log(err);
-    });
+    return api.deleteCard(card._id);
   }
   function updateAvatar(link) {
-    return api.updateAvatar(link).catch((err) => {
-      console.log(err);
-    });
+    return api.updateAvatar(link);
   }
   function updateProfile(personName, personWork) {
-    return api.updateProfile(personName, personWork).catch((err) => {
-      console.log(err);
-    });
+    return api.updateProfile(personName, personWork);
   }
 
   function updateCards(newPlaceName, newPlaceImgLink) {
-    return api
-      .sendCard(newPlaceName, newPlaceImgLink)
-      .then((value) => {
-        setCards([value, ...cards]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    return api.sendCard(newPlaceName, newPlaceImgLink).then((value) => {
+      setCards([value, ...cards]);
+    });
   }
   return (
     <>
@@ -102,8 +84,11 @@ function App() {
             updateProfile(personName, personWork)
               .then((value) => {
                 setCurrentUser(value);
+                setEditPopupOpened(!editPopupOpened);
               })
-              .then(setEditPopupOpened(!editPopupOpened));
+              .catch((err) => {
+                console.log(err);
+              });
           }}
           onClose={() => {
             setEditPopupOpened(!editPopupOpened);
@@ -115,9 +100,13 @@ function App() {
             setaddPopupOpened(!addPopupOpened);
           }}
           submitHandler={(newPlaceName, newPlaceImgLink) => {
-            updateCards(newPlaceName, newPlaceImgLink).then(
-              setaddPopupOpened(!addPopupOpened)
-            );
+            updateCards(newPlaceName, newPlaceImgLink)
+              .then(() => {
+                setaddPopupOpened(!addPopupOpened);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           }}
         ></AddPopup>
         <AvatarPopup
@@ -126,8 +115,11 @@ function App() {
             updateAvatar(link)
               .then((value) => {
                 setCurrentUser(value);
+                setavatarPopupOpened(!avatarPopupOpened);
               })
-              .then(setavatarPopupOpened(!avatarPopupOpened));
+              .catch((err) => {
+                console.log(err);
+              });
           }}
           onClose={() => {
             setavatarPopupOpened(!avatarPopupOpened);
@@ -138,8 +130,13 @@ function App() {
           submitHandler={(e) => {
             e.preventDefault();
             handleCardDelete(doomedCard)
-              .then(setCards(cards.filter((card) => card != doomedCard)))
-              .then(setDoomedCard(""));
+              .then(() => {
+                setCards(cards.filter((card) => card != doomedCard));
+                setDoomedCard("");
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           }}
           onClose={() => {
             setDoomedCard("");

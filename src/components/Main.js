@@ -58,7 +58,9 @@ export function Main({
               card={item}
               key={item._id}
               likeHandler={() => {
-                dataForCards.handleCardLike(item);
+                dataForCards.handleCardLike(item).catch((err) => {
+                  console.log(err);
+                });
               }}
               clickHandler={() => {
                 dataForCards.setSelectedCard(item);
